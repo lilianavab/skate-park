@@ -1,0 +1,41 @@
+<a href="/"><h1>Skate Park</h1></a>
+
+<div class="py-5">
+  <h2>Iniciar Sesión</h2>
+  <hr class="w-50" />
+
+  <form>
+    <div class="mb-3">
+      <div class="form-group">
+        <label>Email</label>
+        <input class="form-control w-50 m-auto" />
+      </div>
+      <div class="mb-3">
+        <label>Password</label>
+        <input class="form-control w-50 m-auto" />
+      </div>
+    </div>
+    <button class="btn btn-success mb-3">Ingresar</button>
+    <p>¿Aún no tienes cuenta? <a href="/registro">Regístrate</a></p>
+  </form>
+</div>
+
+<script>
+  const form = document.querySelector("form")
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault()
+
+    let [email, password] = document.querySelectorAll("input")
+
+    email = email.value
+    password = password.value
+    try {
+      const { data: token } = await axios.post("/login", { email, password })
+      window.location = `/perfil?token=${token}`
+    } catch ({ response }) {
+      const { data } = response
+      const { error } = data
+      alert(error)
+    }
+  })
+</script>
